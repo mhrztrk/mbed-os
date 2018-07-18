@@ -81,6 +81,8 @@ ble_error_t MaximGattServer::addService(GattService &service)
             // add a CCCD
             attListLen++;
         }
+
+        attListLen += p_char->getDescriptorCount();
     }
 
     // Create WiCentric attribute list
@@ -166,7 +168,7 @@ ble_error_t MaximGattServer::addService(GattService &service)
             currAtt->pLen = p_att->getLengthPtr();
             currAtt->maxLen = p_att->getMaxLength();
             currAtt->settings = 0;
-            currAtt->permissions = 0;
+            currAtt->permissions = ATTS_PERMIT_READ;
             if (p_att->getUUID().shortOrLong() == UUID::UUID_TYPE_LONG) {
                 currAtt->settings |= ATTS_SET_UUID_128;
             }
